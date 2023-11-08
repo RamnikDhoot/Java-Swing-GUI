@@ -13,5 +13,8 @@ public class Main {
         frame.setSize(420, 420);
         frame.setVisible(true);
 
+        ImageIcon image = new ImageIcon("images/notepad-icon.jpg");
+        frame.setIconImage(image.getImage()); // changes icon of frame
+
     }
 }
