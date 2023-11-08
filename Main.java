@@ -1,3 +1,4 @@
+import java.awt.Color;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
@@ -15,6 +16,8 @@ public class Main {
 
         ImageIcon image = new ImageIcon("images/notepad-icon.jpg");
         frame.setIconImage(image.getImage()); // changes icon of frame
+
+        frame.getContentPane().setBackground(Color.blue); // Changes colour of background
 
     }
 }
