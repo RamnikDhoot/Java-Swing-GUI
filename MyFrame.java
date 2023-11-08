@@ -23,3 +23,5 @@ public class MyFrame extends JFrame {
         this.add(label); // Adds the label to window
     }
 }
+
+// This class is unused as changing components on the frame does not work
