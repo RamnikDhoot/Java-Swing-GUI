@@ -19,7 +19,7 @@ public class NotesApplicationTest {
 
     @BeforeEach
     void setUp() {
-        // Initialize the application and GUI in the EDT (Event Dispatch Thread)
+        // Initialize the application and GUI iside of the Event Dispatch Thread
         GuiActionRunner.execute(() -> {
             notesApp = new NotesApplication();
             frame = new FrameFixture(notesApp.getFrame());
@@ -28,25 +28,23 @@ public class NotesApplicationTest {
         // Show the frame
         frame.show();
     }
-    
 
     @AfterEach
     void tearDown() {
-        // Clean up resources
+        // Clean up resources, close the frame
         frame.cleanUp();
     }
-    
 
     @Test
     void testAddNote() {
-        // Given
+        // The note that is written
         String testNote = "This is a test note.";
 
-        // When
+        // Put the note in the writing area and clicking add note
         frame.textBox("noteTextArea").enterText(testNote);
         frame.button("addNoteButton").click();
 
-        // Then
+        // Making sure that the note just made exists
         assertThat(notesApp.getNotes()).containsExactly(testNote);
     }
 
@@ -54,12 +52,14 @@ public class NotesApplicationTest {
     void testMenuBarExists() {
         // Check if the menu bar exists
         assertThat(frame.robot().finder().findByType(JMenuBar.class)).isNotNull();
-        //The Robot in AssertJ Swing is a test robot that allows you to interact with your Swing components in a GUI test. It finds the menu bar and checks if it exists.
+        // The Robot in AssertJ Swing is a test robot that allows you to interact with
+        // your Swing components in a GUI test. It finds the menu bar and checks if it
+        // exists.
     }
 
     @Test
     void testFileMenuExists() {
-        // Check if the "File" menu exists in the menu bar
+        // Check if the File menu exists in the menu bar
         JMenuBar menuBar = frame.robot().finder().findByType(JMenuBar.class);
         assertThat(menuBar).isNotNull();
 
@@ -69,7 +69,7 @@ public class NotesApplicationTest {
 
     @Test
     void testExitMenuItemExists() {
-        // Check if the "Exit" menu item exists in the "File" menu
+        // Check if the Exit menu item exists in the "File" menu
         JMenuBar menuBar = frame.robot().finder().findByType(JMenuBar.class);
         assertThat(menuBar).isNotNull();
 
@@ -80,46 +80,76 @@ public class NotesApplicationTest {
         assertThat(exitMenuItem).isNotNull();
     }
 
+    @Test
+    void testViewMenuExists() {
+        // Check if the View menu exists
+        JMenuBar menuBar = frame.robot().finder().findByType(JMenuBar.class);
+        assertThat(menuBar).isNotNull();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Helper method to find a menu by name, Itterates through all the items in the menu bar then cecks of the name if that item is euqal to the menuName that is given when this method is called
-private JMenu findMenuByName(JMenuBar menuBar, String menuName) {
-    for (int i = 0; i < menuBar.getMenuCount(); i++) {
-        JMenu menu = menuBar.getMenu(i);
-        if (menu.getText().equals(menuName)) {
-            return menu;
-        }
+        JMenu fileMenu = findMenuByName(menuBar, "View");
+        assertThat(fileMenu).isNotNull();
     }
-    return null;
-} //https://joel-costigliola.github.io/assertj/assertj-swing.html For the assertj methods to do this
 
-// Helper method to find a menu item by name, does the same thing as the upper menu but goes through the items inside of the file menu instead of the whole menu bar
-private JMenuItem findMenuItemByName(JMenu menu, String menuItemName) {
-    for (int i = 0; i < menu.getItemCount(); i++) {
-        JMenuItem menuItem = menu.getItem(i);
-        if (menuItem.getText().equals(menuItemName)) {
-            return menuItem;
-        }
+    @Test
+    void testEditMenuExists() {
+        // Check if the Edit menu exists
+        JMenuBar menuBar = frame.robot().finder().findByType(JMenuBar.class);
+        assertThat(menuBar).isNotNull();
+
+        JMenu fileMenu = findMenuByName(menuBar, "Edit");
+        assertThat(fileMenu).isNotNull();
+
+        JMenuItem exitMenuItem = findMenuItemByName(fileMenu, "Exit");
+        assertThat(exitMenuItem).isNotNull();
     }
-    return null;
-}
-    
+
+    @Test
+    void testHomeMenuExists() {
+        // Check if the Home menu exists
+        JMenuBar menuBar = frame.robot().finder().findByType(JMenuBar.class);
+        assertThat(menuBar).isNotNull();
+
+        JMenu fileMenu = findMenuByName(menuBar, "Home");
+        assertThat(fileMenu).isNotNull();
+
+    }
+
+    @Test
+    void testHelpMenuExists() {
+        // Check if the Help menu exists
+        JMenuBar menuBar = frame.robot().finder().findByType(JMenuBar.class);
+        assertThat(menuBar).isNotNull();
+
+        JMenu fileMenu = findMenuByName(menuBar, "Help");
+        assertThat(fileMenu).isNotNull();
+
+    }
+
+    // Helper method to find a menu by name, Itterates through all the items in the
+    // menu bar then cecks of the name if that item is euqal to the menuName that is
+    // given when this method is called
+    private JMenu findMenuByName(JMenuBar menuBar, String menuName) {
+        for (int i = 0; i < menuBar.getMenuCount(); i++) {
+            JMenu menu = menuBar.getMenu(i);
+            if (menu.getText().equals(menuName)) {
+                return menu;
+            }
+        }
+        return null;
+    } // https://joel-costigliola.github.io/assertj/assertj-swing.html For the assertj
+      // methods to do this
+
+    // Helper method to find a menu item by name, does the same thing as the upper
+    // menu but goes through the items inside of the file menu instead of the whole
+    // menu bar
+    private JMenuItem findMenuItemByName(JMenu menu, String menuItemName) {
+        for (int i = 0; i < menu.getItemCount(); i++) {
+            JMenuItem menuItem = menu.getItem(i);
+            if (menuItem.getText().equals(menuItemName)) {
+                return menuItem;
+            }
+        }
+        return null;
+    }
+
 }
