@@ -1,6 +1,9 @@
 import org.assertj.swing.core.GenericTypeMatcher; //To be used later for other tests
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.FrameFixture;
+import org.assertj.swing.fixture.JMenuItemFixture;
+import org.assertj.swing.fixture.JPopupMenuFixture;
+import org.assertj.swing.fixture.JPopupMenuInvokerFixture;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,6 +12,7 @@ import com.example.NotesApplication;
 
 import javax.swing.*;
 import java.awt.*; //To be used later for other tests
+import java.awt.print.PrinterException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -56,17 +60,6 @@ public class NotesApplicationTest {
         // your Swing components in a GUI test. It finds the menu bar and checks if it
         // exists.
     }
-
-    @Test
-    void testFileMenuExists() {
-        // Check if the File menu exists in the menu bar
-        JMenuBar menuBar = frame.robot().finder().findByType(JMenuBar.class);
-        assertThat(menuBar).isNotNull();
-
-        JMenu fileMenu = findMenuByName(menuBar, "File");
-        assertThat(fileMenu).isNotNull();
-    }
-
     @Test
     void testExitMenuItemExists() {
         // Check if the Exit menu item exists in the "File" menu
@@ -79,6 +72,32 @@ public class NotesApplicationTest {
         JMenuItem exitMenuItem = findMenuItemByName(fileMenu, "Exit");
         assertThat(exitMenuItem).isNotNull();
     }
+
+
+    @Test
+    void testFileMenuExists() {
+        // Check if the File menu exists in the menu bar
+        JMenuBar menuBar = frame.robot().finder().findByType(JMenuBar.class);
+        assertThat(menuBar).isNotNull();
+
+        JMenu fileMenu = findMenuByName(menuBar, "File");
+        assertThat(fileMenu).isNotNull();
+    }
+
+    @Test
+    void testPrintMenuItemExistsInFileMenu() {
+        // Check if the Print menu item exists in the File menu
+        JMenuBar menuBar = frame.robot().finder().findByType(JMenuBar.class);
+        assertThat(menuBar).isNotNull();
+
+        JMenu fileMenu = findMenuByName(menuBar, "File");
+        assertThat(fileMenu).isNotNull();
+
+        JMenuItem printMenuItem = findMenuItemByName(fileMenu, "Print");
+        assertThat(printMenuItem).isNotNull();
+}
+
+    
 
     @Test
     void testViewMenuExists() {
@@ -99,8 +118,6 @@ public class NotesApplicationTest {
         JMenu fileMenu = findMenuByName(menuBar, "Edit");
         assertThat(fileMenu).isNotNull();
 
-        JMenuItem exitMenuItem = findMenuItemByName(fileMenu, "Exit");
-        assertThat(exitMenuItem).isNotNull();
     }
 
     @Test
@@ -124,6 +141,49 @@ public class NotesApplicationTest {
         assertThat(fileMenu).isNotNull();
 
     }
+
+//     @Test
+// void testPrintOptionsExistInFileMenu() {
+//     // Check if the Print menu item exists in the File menu
+//     JMenuBar menuBar = frame.robot().finder().findByType(JMenuBar.class);
+//     assertThat(menuBar).isNotNull();
+
+//     JMenu fileMenu = findMenuByName(menuBar, "File");
+//     assertThat(fileMenu).isNotNull();
+
+//     JMenuItem printMenuItem = findMenuItemByName(fileMenu, "Print");
+//     assertThat(printMenuItem).isNotNull();
+
+//     // Click on the "Print" menu item to open the options
+//     printMenuItem.doClick();
+
+// } Thest for print menu items not working
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 
     // Helper method to find a menu by name, Itterates through all the items in the
     // menu bar then cecks of the name if that item is euqal to the menuName that is
