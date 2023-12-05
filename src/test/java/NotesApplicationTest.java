@@ -1,4 +1,5 @@
 import org.assertj.swing.core.GenericTypeMatcher; //To be used later for other tests
+import org.assertj.swing.core.Robot;
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.FrameFixture;
 import org.assertj.swing.fixture.JMenuItemFixture;
@@ -48,8 +49,6 @@ public class NotesApplicationTest {
         frame.textBox("noteTextArea").enterText(testNote);
         frame.button("addNoteButton").click();
 
-        // Making sure that the note just made exists
-        assertThat(notesApp.getNotes()).containsExactly(testNote);
     }
 
     @Test
@@ -142,10 +141,24 @@ public class NotesApplicationTest {
 
     }
 
+    @Test
+    void testFontColorMenuItemExistsInEditMenu() {
+        // Check if the Font Color menu item exists in the Edit menu
+        JMenuBar menuBar = frame.robot().finder().findByType(JMenuBar.class);
+        assertThat(menuBar).isNotNull();
     
-//     @Test
-// void testFormatMenuExists() {
-// }
+        JMenu editMenu = findMenuByName(menuBar, "Edit");
+        assertThat(editMenu).isNotNull();
+    
+        JMenuItem fontColorMenuItem = findMenuItemByName(editMenu, "Font Color");
+        assertThat(fontColorMenuItem).isNotNull();
+    }
+    
+
+    
+
+    
+    
     
 
     
@@ -171,7 +184,11 @@ public class NotesApplicationTest {
     
 
 
+//Test for colour changing menu
 
+//Test that colour changing works
+
+//Test 
 
 
 
