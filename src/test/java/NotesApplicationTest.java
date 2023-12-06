@@ -1,6 +1,8 @@
 import org.assertj.swing.core.GenericTypeMatcher; //To be used later for other tests
 import org.assertj.swing.core.Robot;
 import org.assertj.swing.edt.GuiActionRunner;
+import org.assertj.swing.finder.WindowFinder;
+import org.assertj.swing.fixture.DialogFixture;
 import org.assertj.swing.fixture.FrameFixture;
 import org.assertj.swing.fixture.JMenuItemFixture;
 import org.assertj.swing.fixture.JPopupMenuFixture;
@@ -153,7 +155,26 @@ public class NotesApplicationTest {
         JMenuItem fontColorMenuItem = findMenuItemByName(editMenu, "Font Color");
         assertThat(fontColorMenuItem).isNotNull();
     }
-    
+
+    @Test
+void testTouchScreenModeMenuItemExistsInViewMenu() {
+    // Check if the "Touch Screen Mode" menu item exists in the "View" menu
+    JMenuBar menuBar = frame.robot().finder().findByType(JMenuBar.class);
+    assertThat(menuBar).isNotNull();
+
+    JMenu viewMenu = findMenuByName(menuBar, "View");
+    assertThat(viewMenu).isNotNull();
+
+    JMenuItem touchScreenModeMenuItem = findMenuItemByName(viewMenu, "Touch Screen Mode");
+    assertThat(touchScreenModeMenuItem).isNotNull();
+}
+
+@Test
+public void testOnScreenKeyboardDialog() {
+    // Click the "Touch Screen Mode" menu item to show the on-screen keyboard
+    frame.menuItemWithPath("View", "Touch Screen Mode").click();
+// Need to make it check that the keybaord shows up
+}
 
     
 

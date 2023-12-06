@@ -55,6 +55,12 @@ public class NotesApplication {
         editMenu.add(fontColorMenuItem);
 
         JMenu viewMenu = new JMenu("View");
+
+        // Add "Touch Screen Mode" option to "View" menu
+        JMenuItem touchScreenModeMenuItem = new JMenuItem("Touch Screen Mode");
+        touchScreenModeMenuItem.addActionListener(e -> enableTouchScreenMode());
+        viewMenu.add(touchScreenModeMenuItem);
+
         JMenu homeMenu = new JMenu("Home");
         JMenu helpMenu = new JMenu("Help");
 
@@ -117,22 +123,50 @@ public class NotesApplication {
     }
 
     private void printNoteToPrinter() {
-        // Implement the logic to print the note to a printer
-        // You can use PrinterJob and NotePrintable as in the previous examples
+        // Empty for now
+
         System.out.println("Printing to Printer");
     }
 
     private void showPrintPreview() {
-        // Implement the logic to show print preview
-        // You can customize this based on your needs
+        // Empty for now
         System.out.println("Show Print Preview");
     }
 
+    // Opens menu for changing colors, already installed in swing
     private void showFontColorDialog() {
         Color selectedColor = JColorChooser.showDialog(frame, "Choose Font Color", Color.BLACK);
         if (selectedColor != null) {
-            noteTextArea.setForeground(selectedColor);
+            noteTextArea.setForeground(selectedColor);//Checks if selected color is valid then changes the text color
         }
+    }
+
+    private void enableTouchScreenMode() {
+        JDialog keyboardDialog = createKeyboardDialog(frame);
+        keyboardDialog.setLocationRelativeTo(frame);
+        keyboardDialog.setVisible(true);
+    }
+
+    private JDialog createKeyboardDialog(JFrame parent) {
+        JDialog keyboardDialog = new JDialog(parent, "On-Screen Keyboard", true);
+        keyboardDialog.setSize(400, 200);
+    
+        // Letters of the alphabet
+        String[] alphabet = {
+            "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P",
+            "A", "S", "D", "F", "G", "H", "J", "K", "L",
+            "Z", "X", "C", "V", "B", "N", "M"
+        };
+    
+        // Set a GridLayout with 4 rows and 7 columns for a 4x7 grid
+        keyboardDialog.setLayout(new GridLayout(4, 7));
+    
+        for (String letter : alphabet) {
+            JButton letterButton = new JButton(letter);
+            keyboardDialog.add(letterButton);
+        }
+    
+        return keyboardDialog;
     }
 
     public static void main(String[] args) {
