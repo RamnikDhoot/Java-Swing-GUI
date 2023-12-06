@@ -1,8 +1,7 @@
 import org.assertj.swing.core.GenericTypeMatcher; //To be used later for other tests
 import org.assertj.swing.core.Robot;
+import org.assertj.swing.core.matcher.JButtonMatcher;
 import org.assertj.swing.edt.GuiActionRunner;
-import org.assertj.swing.finder.WindowFinder;
-import org.assertj.swing.fixture.DialogFixture;
 import org.assertj.swing.fixture.FrameFixture;
 import org.assertj.swing.fixture.JMenuItemFixture;
 import org.assertj.swing.fixture.JPopupMenuFixture;
@@ -168,13 +167,56 @@ void testTouchScreenModeMenuItemExistsInViewMenu() {
     JMenuItem touchScreenModeMenuItem = findMenuItemByName(viewMenu, "Touch Screen Mode");
     assertThat(touchScreenModeMenuItem).isNotNull();
 }
-
+    
 @Test
 public void testOnScreenKeyboardDialog() {
     // Click the "Touch Screen Mode" menu item to show the on-screen keyboard
     frame.menuItemWithPath("View", "Touch Screen Mode").click();
 // Need to make it check that the keybaord shows up
 }
+
+@Test
+void testFullScreenItemExistsInViewMenu() {
+    // Check if the Full screen mode menu item exists in the View menu
+    JMenuBar menuBar = frame.robot().finder().findByType(JMenuBar.class);
+    assertThat(menuBar).isNotNull();
+
+    JMenu viewMenu = findMenuByName(menuBar, "View");
+    assertThat(viewMenu).isNotNull();
+
+    JMenuItem touchScreenModeMenuItem = findMenuItemByName(viewMenu, "Full Screen");
+    assertThat(touchScreenModeMenuItem).isNotNull();
+}
+
+@Test
+    public void testToggleFullScreen() {
+        // Click the "Full Screen" menu item to toggle full-screen mode
+        frame.menuItemWithPath("View", "Full Screen").click();
+
+
+        // Verify that the full-screen window is set
+        GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        assertThat(device.getFullScreenWindow()).isNotNull();
+
+        // Click the "Full Screen" menu item again to toggle back
+        frame.menuItemWithPath("View", "Full Screen").click();
+
+
+        // Verify that the full-screen window is cleared
+        assertThat(device.getFullScreenWindow()).isNull();
+    }
+
+    @Test
+    public void testUndoRedoButtonsExist() {
+        // Use the robot's finder to locate the undo button
+        JButtonMatcher undoMatcher = JButtonMatcher.withText("Undo");
+        assertThat(frame.robot().finder().find(undoMatcher)).isNotNull();
+
+        // Use the robot's finder to locate the redo button
+        JButtonMatcher redoMatcher = JButtonMatcher.withText("Redo");
+        assertThat(frame.robot().finder().find(redoMatcher)).isNotNull();
+    }
+
 
     
 
