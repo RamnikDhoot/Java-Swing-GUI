@@ -1,4 +1,4 @@
-package com.example;
+package com.com.example;
 
 import javax.swing.*;
 import java.awt.*;

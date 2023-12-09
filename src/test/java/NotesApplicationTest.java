@@ -10,7 +10,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.example.NotesApplication;
+import com.example.example.NotesApplication;
 
 import javax.swing.*;
 import java.awt.*; //To be used later for other tests
