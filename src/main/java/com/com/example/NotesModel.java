@@ -1,8 +1,12 @@
 
 package com.com.example; 
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.function.Consumer;
 
 /**
@@ -96,6 +100,31 @@ public class NotesModel {
     private void notifyChangeListeners() {
         for (Consumer<List<String>> listener : changeListeners) {
             listener.accept(new ArrayList<>(notes)); // Pass a copy of the notes list
+        }
+    }
+
+    public void addChangeListener(Object listener) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'addChangeListener'");
+    }
+
+     public void saveNotesToFile(String filename) {
+        try (PrintWriter out = new PrintWriter(filename)) {
+            for (String note : notes) {
+                out.println(note);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadNotesFromFile(String filename) {
+        try (Scanner scanner = new Scanner(new File(filename))) {
+            while (scanner.hasNextLine()) {
+                addNote(scanner.nextLine());
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
 }
